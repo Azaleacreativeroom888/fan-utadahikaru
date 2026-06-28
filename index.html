@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HIKARU UTADA — Fan Site</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Noto+Serif+JP:wght@300;400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0a1628;
+      --bg-mid:    #0d2347;
+      --border:    #1a3a6b;
+      --yellow:    #f5c518;
+      --black:     #0b0d12;
+      --text:      #c8d8f0;
+      --text-dim:  #6b88b8;
+      --text-mute: #3a5080;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Noto Serif JP', serif;
+      font-weight: 300;
+      line-height: 1.8;
+      min-height: 100vh;
+    }
+
+    /* ── NAVIGATION ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: var(--black);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 2.5rem;
+      height: 56px;
+    }
+
+    .nav-logo {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.25em;
+      color: var(--yellow);
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.2em;
+      color: var(--text-dim);
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: color 0.25s;
+    }
+
+    .nav-links a:hover { color: var(--yellow); }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      overflow: hidden;
+      padding: 80px 2rem 4rem;
+      background: radial-gradient(ellipse 80% 60% at 50% 40%, #0d2a55 0%, var(--bg) 70%);
+    }
+
+    /* floating particles */
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+      animation: drift linear infinite;
+      opacity: 0;
+    }
+
+    @keyframes drift {
+      0%   { transform: translateY(100vh) scale(0.5); opacity: 0; }
+      10%  { opacity: 1; }
+      90%  { opacity: 0.4; }
+      100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+    }
+
+    .hero-eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.4em;
+      color: var(--yellow);
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3.5rem, 10vw, 8rem);
+      font-weight: 300;
+      line-height: 1.0;
+      color: #e8f0ff;
+      letter-spacing: 0.05em;
+      position: relative;
+    }
+
+    .hero-title em {
+      font-style: italic;
+      color: var(--yellow);
+      display: block;
+    }
+
+    .hero-divider {
+      width: 1px;
+      height: 60px;
+      background: linear-gradient(to bottom, var(--yellow), transparent);
+      margin: 2.5rem auto;
+    }
+
+    .hero-sub {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1rem, 2.5vw, 1.35rem);
+      font-weight: 300;
+      font-style: italic;
+      color: var(--text-dim);
+      max-width: 520px;
+      letter-spacing: 0.04em;
+    }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.3em;
+      color: var(--text-mute);
+      text-transform: uppercase;
+      animation: bounce 2.4s ease-in-out infinite;
+    }
+
+    .hero-scroll::after {
+      content: '';
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, var(--text-mute), transparent);
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50%       { transform: translateX(-50%) translateY(6px); }
+    }
+
+    /* ── SECTIONS ── */
+    section {
+      padding: 5rem 2rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.35em;
+      color: var(--yellow);
+      text-transform: uppercase;
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ── ABOUT STRIP ── */
+    .about-strip {
+      background: var(--bg-mid);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .about-strip section {
+      display: grid;
+      grid-template-columns: 1fr 1px 1fr;
+      gap: 3rem;
+      align-items: center;
+    }
+
+    .about-divider-v {
+      background: var(--border);
+      height: 100%;
+      min-height: 200px;
+    }
+
+    .about-heading {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 300;
+      line-height: 1.2;
+      color: #e8f0ff;
+      margin-bottom: 1.2rem;
+    }
+
+    .about-text {
+      color: var(--text-dim);
+      font-size: 0.92rem;
+      line-height: 1.9;
+    }
+
+    .about-text strong {
+      color: var(--text);
+      font-weight: 400;
+    }
+
+    /* ── DISCOGRAPHY ── */
+    .disc-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1rem;
+    }
+
+    .disc-card {
+      background: var(--bg-mid);
+      border: 1px solid var(--border);
+      padding: 1.5rem 1.25rem;
+      transition: border-color 0.25s, transform 0.25s;
+      cursor: default;
+    }
+
+    .disc-card:hover {
+      border-color: var(--yellow);
+      transform: translateY(-3px);
+    }
+
+    .disc-year {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.2em;
+      color: var(--yellow);
+      margin-bottom: 0.5rem;
+    }
+
+    .disc-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-weight: 400;
+      color: #e8f0ff;
+      line-height: 1.3;
+      margin-bottom: 0.4rem;
+    }
+
+    .disc-type {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.2em;
+      color: var(--text-mute);
+      text-transform: uppercase;
+    }
+
+    /* ── QUOTE ── */
+    .quote-section {
+      text-align: center;
+      padding: 5rem 2rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .quote-section blockquote {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+      font-style: italic;
+      font-weight: 300;
+      color: #d0dfff;
+      max-width: 700px;
+      margin: 0 auto 1.5rem;
+      line-height: 1.5;
+    }
+
+    .quote-section cite {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.3em;
+      color: var(--yellow);
+      text-transform: uppercase;
+      font-style: normal;
+    }
+
+    /* ── NAVIGATION CARDS ── */
+    .nav-cards {
+      background: var(--black);
+      border-top: 1px solid var(--border);
+      padding: 4rem 2rem;
+    }
+
+    .nav-cards-inner {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .nav-card-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      margin-top: 2rem;
+    }
+
+    .nav-card {
+      background: var(--black);
+      padding: 2.5rem 2rem;
+      text-decoration: none;
+      display: block;
+      transition: background 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .nav-card::before {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 0; height: 2px;
+      background: var(--yellow);
+      transition: width 0.35s ease;
+    }
+
+    .nav-card:hover { background: #0d1a2e; }
+    .nav-card:hover::before { width: 100%; }
+
+    .nav-card-num {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.3em;
+      color: var(--text-mute);
+      margin-bottom: 1rem;
+    }
+
+    .nav-card-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.6rem;
+      font-weight: 300;
+      color: #e8f0ff;
+      line-height: 1.2;
+      margin-bottom: 0.5rem;
+      transition: color 0.2s;
+    }
+
+    .nav-card:hover .nav-card-title { color: var(--yellow); }
+
+    .nav-card-desc {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.1em;
+      color: var(--text-mute);
+      line-height: 1.6;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--black);
+      border-top: 1px solid var(--border);
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .footer-text {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      color: var(--text-mute);
+    }
+
+    .footer-text a {
+      color: var(--yellow);
+      text-decoration: none;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 640px) {
+      nav { padding: 0 1.25rem; }
+      .nav-links { gap: 1.2rem; }
+      .about-strip section {
+        grid-template-columns: 1fr;
+      }
+      .about-divider-v { display: none; }
+      .nav-card-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .particle, .hero-scroll { animation: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVIGATION -->
+<nav>
+  <a href="index.html" class="nav-logo">Utada Hikaru</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="blog.html">Blog</a></li>
+    <li><a href="gallery.html">Gallery</a></li>
+    <li><a href="about.html">About</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero" id="hero">
+
+  <!-- particles injected by JS -->
+
+  <p class="hero-eyebrow">Fan Site &mdash; 宇多田ヒカル</p>
+
+  <h1 class="hero-title">
+    Hikaru<br>
+    <em>Utada</em>
+  </h1>
+
+  <div class="hero-divider"></div>
+
+  <p class="hero-sub">
+    孤独でも美しい音楽の世界へ。<br>
+    <span style="font-style:normal; font-family:'DM Mono',monospace; font-size:0.7rem; letter-spacing:0.2em; color: var(--text-mute);">A personal tribute to her music and world.</span>
+  </p>
+
+  <div class="hero-scroll">Scroll</div>
+</div>
+
+<!-- ABOUT STRIP -->
+<div class="about-strip">
+  <section>
+    <div>
+      <div class="section-label">About</div>
+      <h2 class="about-heading">音楽という<br>もう一つの言語</h2>
+    </div>
+    <div class="about-divider-v"></div>
+    <div>
+      <p class="about-text">
+        宇多田ヒカルは<strong>1983年東京生まれ</strong>。15歳でリリースした「Automatic」でデビュー後、J-POPの枠を超え世界的な評価を受けた。英語と日本語を行き来する歌詞、R&Bとポップスを融合させたサウンドは、他の誰にも似ていない。<br><br>
+        このサイトは、彼女の音楽に出会ったひとりのファンによる個人的なオマージュです。
+      </p>
+    </div>
+  </section>
+</div>
+
+<!-- DISCOGRAPHY -->
+<section>
+  <div class="section-label">Selected Discography</div>
+  <div class="disc-grid">
+    <div class="disc-card">
+      <div class="disc-year">1998</div>
+      <div class="disc-title">First Love</div>
+      <div class="disc-type">Album</div>
+    </div>
+    <div class="disc-card">
+      <div class="disc-year">2002</div>
+      <div class="disc-title">Deep River</div>
+      <div class="disc-type">Album</div>
+    </div>
+    <div class="disc-card">
+      <div class="disc-year">2016</div>
+      <div class="disc-title">Fantôme</div>
+      <div class="disc-type">Album</div>
+    </div>
+    <div class="disc-card">
+      <div class="disc-year">2018</div>
+      <div class="disc-title">初恋</div>
+      <div class="disc-type">Album</div>
+    </div>
+    <div class="disc-card">
+      <div class="disc-year">2022</div>
+      <div class="disc-title">BAD Mode</div>
+      <div class="disc-type">Album</div>
+    </div>
+    <div class="disc-card">
+      <div class="disc-year">2024</div>
+      <div class="disc-title">SCIENCE FICTION</div>
+      <div class="disc-type">Best Album</div>
+    </div>
+  </div>
+</section>
+
+<!-- QUOTE -->
+<div class="quote-section">
+  <blockquote>
+    「人生って、会うことと別れることの繰り返しだと思う。でもそれは、悲しいことじゃない。」
+  </blockquote>
+  <cite>Hikaru Utada</cite>
+</div>
+
+<!-- PAGE NAVIGATION CARDS -->
+<div class="nav-cards">
+  <div class="nav-cards-inner">
+    <div class="section-label">Explore</div>
+    <div class="nav-card-grid">
+      <a href="blog.html" class="nav-card">
+        <div class="nav-card-num">01</div>
+        <div class="nav-card-title">Blog</div>
+        <div class="nav-card-desc">勉強の記録と<br>日々の考えごと</div>
+      </a>
+      <a href="gallery.html" class="nav-card">
+        <div class="nav-card-num">02</div>
+        <div class="nav-card-title">Gallery</div>
+        <div class="nav-card-desc">ファンアートと<br>イラストのまとめ</div>
+      </a>
+      <a href="about.html" class="nav-card">
+        <div class="nav-card-num">03</div>
+        <div class="nav-card-title">About</div>
+        <div class="nav-card-desc">サイトと管理人に<br>ついて</div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p class="footer-text">
+    This is an unofficial fan site. All music &amp; images &copy; their respective rights holders.<br>
+    Made with love &mdash; <a href="about.html">contact</a>
+  </p>
+</footer>
+
+<!-- PARTICLES SCRIPT -->
+<script>
+  const hero = document.getElementById('hero');
+  const colors = ['#f5c518', '#6b88b8', '#c8d8f0', '#1a3a6b'];
+  const count = 28;
+
+  for (let i = 0; i < count; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+
+    const size = Math.random() * 3 + 1;
+    const left = Math.random() * 100;
+    const delay = Math.random() * 12;
+    const duration = Math.random() * 14 + 10;
+    const color = colors[Math.floor(Math.random() * colors.length)];
+
+    p.style.cssText = `
+      width: ${size}px;
+      height: ${size}px;
+      left: ${left}%;
+      background: ${color};
+      animation-delay: ${delay}s;
+      animation-duration: ${duration}s;
+      box-shadow: 0 0 ${size * 3}px ${color};
+    `;
+    hero.appendChild(p);
+  }
+</script>
+
+</body>
+</html>
