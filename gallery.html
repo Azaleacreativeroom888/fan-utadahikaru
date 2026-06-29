@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gallery — HIKARU UTADA Fan Site</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Noto+Serif+JP:wght@300;400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0a1628;
+      --bg-mid:    #0d2347;
+      --border:    #1a3a6b;
+      --yellow:    #f5c518;
+      --black:     #0b0d12;
+      --text:      #c8d8f0;
+      --text-dim:  #6b88b8;
+      --text-mute: #3a5080;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Noto Serif JP', serif;
+      font-weight: 300;
+      line-height: 1.8;
+      min-height: 100vh;
+    }
+
+    /* ── NAVIGATION ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: var(--black);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 2.5rem;
+      height: 56px;
+    }
+
+    .nav-logo {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.25em;
+      color: var(--yellow);
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.2em;
+      color: var(--text-dim);
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: color 0.25s;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active { color: var(--yellow); }
+
+    /* ── PAGE HEADER ── */
+    .page-header {
+      padding: 120px 2rem 3rem;
+      max-width: 1000px;
+      margin: 0 auto;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+    }
+
+    .page-header-left {}
+
+    .page-eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.35em;
+      color: var(--yellow);
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .page-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.2rem, 6vw, 4rem);
+      font-weight: 300;
+      font-style: italic;
+      color: #e8f0ff;
+      line-height: 1.1;
+    }
+
+    /* ── FILTER TABS ── */
+    .filter-tabs {
+      display: flex;
+      gap: 0;
+      border: 1px solid var(--border);
+      align-self: flex-end;
+    }
+
+    .filter-btn {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-mute);
+      background: none;
+      border: none;
+      border-right: 1px solid var(--border);
+      padding: 0.6rem 1.1rem;
+      cursor: pointer;
+      transition: color 0.2s, background 0.2s;
+    }
+
+    .filter-btn:last-child { border-right: none; }
+
+    .filter-btn:hover { color: var(--text); background: var(--bg-mid); }
+    .filter-btn.active { color: var(--yellow); background: var(--bg-mid); }
+
+    /* ── GALLERY GRID ── */
+    .gallery-wrap {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 3rem 2rem 6rem;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    /* card */
+    .gallery-card {
+      position: relative;
+      background: var(--bg-mid);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      cursor: pointer;
+      transition: border-color 0.25s, transform 0.25s;
+    }
+
+    .gallery-card[data-hidden="true"] { display: none; }
+
+    .gallery-card:hover {
+      border-color: var(--yellow);
+      transform: translateY(-3px);
+    }
+
+    /* placeholder image area */
+    .card-img {
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      background: var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* decorative SVG placeholder */
+    .card-img svg {
+      width: 48px;
+      height: 48px;
+      opacity: 0.18;
+    }
+
+    /* when a real image is supplied */
+    .card-img img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* hover overlay */
+    .card-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(10,22,40,0.92) 0%, rgba(10,22,40,0.3) 55%, transparent 100%);
+      opacity: 0;
+      transition: opacity 0.3s;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 1.25rem;
+    }
+
+    .gallery-card:hover .card-overlay { opacity: 1; }
+
+    .overlay-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.05rem;
+      font-weight: 400;
+      color: #e8f0ff;
+      line-height: 1.3;
+      margin-bottom: 0.3rem;
+    }
+
+    .overlay-meta {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.18em;
+      color: var(--yellow);
+      text-transform: uppercase;
+    }
+
+    /* card footer */
+    .card-info {
+      padding: 0.85rem 1rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .card-title {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 0.82rem;
+      color: var(--text);
+      font-weight: 300;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .card-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.56rem;
+      letter-spacing: 0.18em;
+      color: var(--text-mute);
+      text-transform: uppercase;
+      margin-top: 0.2rem;
+    }
+
+    /* ── LIGHTBOX ── */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: rgba(10, 22, 40, 0.96);
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      cursor: zoom-out;
+    }
+
+    .lightbox.open { display: flex; }
+
+    .lightbox-inner {
+      position: relative;
+      max-width: 640px;
+      width: 100%;
+      cursor: default;
+    }
+
+    .lightbox-img-area {
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      background: var(--bg-mid);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .lightbox-img-area img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .lightbox-img-area svg {
+      width: 64px;
+      height: 64px;
+      opacity: 0.2;
+    }
+
+    .lightbox-caption {
+      padding: 1rem 0 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+
+    .lightbox-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-style: italic;
+      color: #e8f0ff;
+    }
+
+    .lightbox-meta {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      color: var(--yellow);
+      text-transform: uppercase;
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: -0.5rem;
+      right: -0.5rem;
+      width: 36px;
+      height: 36px;
+      background: var(--black);
+      border: 1px solid var(--border);
+      color: var(--text-dim);
+      font-family: 'DM Mono', monospace;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: color 0.2s, border-color 0.2s;
+      z-index: 10;
+    }
+
+    .lightbox-close:hover { color: var(--yellow); border-color: var(--yellow); }
+
+    /* ── EMPTY STATE ── */
+    .empty-state {
+      display: none;
+      text-align: center;
+      padding: 5rem 0;
+      color: var(--text-mute);
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--black);
+      border-top: 1px solid var(--border);
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .footer-text {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      color: var(--text-mute);
+    }
+
+    .footer-text a {
+      color: var(--yellow);
+      text-decoration: none;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 700px) {
+      nav { padding: 0 1.25rem; }
+      .nav-links { gap: 1.2rem; }
+      .gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+      .page-header { flex-direction: column; align-items: flex-start; }
+    }
+
+    @media (max-width: 420px) {
+      .gallery-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVIGATION -->
+<nav>
+  <a href="index.html" class="nav-logo">Utada Hikaru</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="blog.html">Blog</a></li>
+    <li><a href="gallery.html" class="active">Gallery</a></li>
+    <li><a href="about.html">About</a></li>
+  </ul>
+</nav>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="page-header-left">
+    <p class="page-eyebrow">Gallery</p>
+    <h1 class="page-title">Fan Art &amp; Illustrations</h1>
+  </div>
+  <div class="filter-tabs">
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="illustration">Illustration</button>
+    <button class="filter-btn" data-filter="manga">Manga</button>
+    <button class="filter-btn" data-filter="sketch">Sketch</button>
+  </div>
+</div>
+
+<!-- GALLERY GRID -->
+<div class="gallery-wrap">
+  <div class="gallery-grid" id="grid">
+
+    <!--
+      画像を追加するには:
+        1. <div class="card-img"> の中に <img src="your-image.jpg" alt="説明"> を入れる
+        2. data-category を illustration / manga / sketch から選ぶ
+        3. card-title と overlay-title を作品名に変える
+    -->
+
+    <div class="gallery-card" data-category="illustration"
+         data-title="First Love — Portrait" data-tag="Illustration">
+      <div class="card-img">
+        <!-- <img src="images/first-love-portrait.jpg" alt="First Love Portrait"> -->
+        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="8" y="6" width="32" height="36" rx="1" stroke="#c8d8f0" stroke-width="1.5"/>
+          <circle cx="24" cy="20" r="7" stroke="#c8d8f0" stroke-width="1.5"/>
+          <path d="M10 42c2-8 24-10 28 0" stroke="#c8d8f0" stroke-width="1.5"/>
+        </svg>
+      </div>
+      <div class="card-overlay">
+        <div class="overlay-title">First Love — Portrait</div>
+        <div class="overlay-meta">Illustration</div>
+      </div>
+      <div class="card-info">
+        <div class="card-title">First Love — Portrait</div>
+        <div class="card-tag">Illustration</div>
+      </div>
+    </div>
+
+    <div class="gallery-card" data-category="manga"
+         data-title="traveling — 1ページ漫画" data-tag="Manga">
+      <div class="card-img">
+        <!-- <img src="images/traveling-manga.jpg" alt="traveling manga"> -->
+        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="6" y="4" width="36" height="40" rx="1" stroke="#c8d8f0" stroke-width="1.5"/>
+          <line x1="6" y1="14" x2="42" y2="14" stroke="#c8d8f0" stroke-width="1"/>
+          <line x1="6" y1="28" x2="42" y2="28" stroke="#c8d8f0" stroke-width="1"/>
+          <line x1="24" y1="14" x2="24" y2="28" stroke="#c8d8f0" stroke-width="1"/>
+        </svg>
+      </div>
+      <div class="card-overlay">
+        <div class="overlay-title">traveling — 1ページ漫画</div>
+        <div class="overlay-meta">Manga</div>
+      </div>
+      <div class="card-info">
+        <div class="card-title">traveling — 1ページ漫画</div>
+        <div class="card-tag">Manga</div>
+      </div>
+    </div>
+
+    <div class="gallery-card" data-category="sketch"
+         data-title="BAD Mode スケッチ" data-tag="Sketch">
+      <div class="card-img">
+        <!-- <img src="images/bad-mode-sketch.jpg" alt="BAD Mode sketch"> -->
+        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10 38 L14 20 L24 30 L32 12 L38 38" stroke="#c8d8f0" stroke-width="1.5" stroke-linejoin="round"/>
+          <circle cx="14" cy="20" r="2" fill="#c8d8f0"/>
+          <circle cx="24" cy="30" r="2" fill="#c8d8f0"/>
+          <circle cx="32" cy="12" r="2" fill="#c8d8f0"/>
+        </svg>
+      </div>
+      <div class="card-overlay">
+        <div class="overlay-title">BAD Mode スケッチ</div>
+        <div class="overlay-meta">Sketch</div>
+      </div>
+      <div class="card-info">
+        <div class="card-title">BAD Mode スケッチ</div>
+        <div class="card-tag">Sketch</div>
+      </div>
+    </div>
+
+    <div class="gallery-card" data-category="illustration"
+         data-title="Fantôme — 夜の情景" data-tag="Illustration">
+      <div class="card-img">
+        <!-- <img src="images/fantome-night.jpg" alt="Fantôme night illustration"> -->
+        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="24" cy="18" r="8" stroke="#c8d8f0" stroke-width="1.5"/>
+          <path d="M16 42 C16 32 32 32 32 42" stroke="#c8d8f0" stroke-width="1.5"/>
+          <circle cx="36" cy="10" r="3" stroke="#f5c518" stroke-width="1"/>
+          <line x1="36" y1="4" x2="36" y2="7" stroke="#f5c518" stroke-width="1"/>
+          <line x1="36" y1="13" x2="36" y2="16" stroke="#f5c518" stroke-width="1"/>
+          <line x1="30" y1="10" x2="33" y2="10" stroke="#f5c518" stroke-width="1"/>
+          <line x1="39" y1="10" x2="42" y2="10" stroke="#f5c518" stroke-width="1"/>
+        </svg>
+      </div>
+      <div class="card-overlay">
+        <div class="overlay-title">Fantôme — 夜の情景</div>
+        <div class="overlay-meta">Illustration</div>
+      </div>
+      <div class="card-info">
+        <div class="card-title">Fantôme — 夜の情景</div>
+        <div class="card-tag">Illustration</div>
+      </div>
+    </div>
+
+    <div class="gallery-card" data-category="manga"
+         data-title="初恋 — 4コマ" data-tag="Manga">
+      <div class="card-img">
+        <!-- <img src="images/hatsukoi-4koma.jpg" alt="初恋 4コマ"> -->
+        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="6" y="4" width="36" height="40" rx="1" stroke="#c8d8f0" stroke-width="1.5"/>
+          <line x1="6" y1="14" x2="42" y2="14" stroke="#c8d8f0" stroke-width="1"/>
+          <line x1="6" y1="24" x2="42" y2="24" stroke="#c8d8f0" stroke-width="1"/>
+          <line x1="6" y1="34" x2="42" y2="34" stroke="#c8d8f0" stroke-width="1"/>
+        </svg>
+      </div>
+      <div class="card-overlay">
+        <div class="overlay-title">初恋 — 4コマ</div>
+        <div class="overlay-meta">Manga</div>
+      </div>
+      <div class="card-info">
+        <div class="card-title">初恋 — 4コマ</div>
+        <div class="card-tag">Manga</div>
+      </div>
+    </div>
+
+    <div class="gallery-card" data-category="sketch"
+         data-title="光 — ラフスケッチ" data-tag="Sketch">
+      <div class="card-img">
+        <!-- <img src="images/hikari-sketch.jpg" alt="光 sketch"> -->
+        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="24" cy="24" r="6" stroke="#f5c518" stroke-width="1.5"/>
+          <line x1="24" y1="6" x2="24" y2="12" stroke="#f5c518" stroke-width="1.2"/>
+          <line x1="24" y1="36" x2="24" y2="42" stroke="#f5c518" stroke-width="1.2"/>
+          <line x1="6" y1="24" x2="12" y2="24" stroke="#f5c518" stroke-width="1.2"/>
+          <line x1="36" y1="24" x2="42" y2="24" stroke="#f5c518" stroke-width="1.2"/>
+          <line x1="11.5" y1="11.5" x2="15.7" y2="15.7" stroke="#f5c518" stroke-width="1.2"/>
+          <line x1="32.3" y1="32.3" x2="36.5" y2="36.5" stroke="#f5c518" stroke-width="1.2"/>
+          <line x1="36.5" y1="11.5" x2="32.3" y2="15.7" stroke="#f5c518" stroke-width="1.2"/>
+          <line x1="15.7" y1="32.3" x2="11.5" y2="36.5" stroke="#f5c518" stroke-width="1.2"/>
+        </svg>
+      </div>
+      <div class="card-overlay">
+        <div class="overlay-title">光 — ラフスケッチ</div>
+        <div class="overlay-meta">Sketch</div>
+      </div>
+      <div class="card-info">
+        <div class="card-title">光 — ラフスケッチ</div>
+        <div class="card-tag">Sketch</div>
+      </div>
+    </div>
+
+  </div><!-- /gallery-grid -->
+
+  <div class="empty-state" id="emptyState">該当する作品がありません</div>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <div class="lightbox-inner">
+    <button class="lightbox-close" id="lbClose">&times;</button>
+    <div class="lightbox-img-area" id="lbImgArea">
+      <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="8" y="6" width="32" height="36" rx="1" stroke="#c8d8f0" stroke-width="1.5"/>
+      </svg>
+    </div>
+    <div class="lightbox-caption">
+      <span class="lightbox-title" id="lbTitle"></span>
+      <span class="lightbox-meta" id="lbMeta"></span>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p class="footer-text">
+    This is an unofficial fan site. All music &copy; their respective rights holders.<br>
+    <a href="about.html">About this site</a>
+  </p>
+</footer>
+
+<script>
+  // ── FILTER ──
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const cards = document.querySelectorAll('.gallery-card');
+  const emptyState = document.getElementById('emptyState');
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const filter = btn.dataset.filter;
+      let visible = 0;
+
+      cards.forEach(card => {
+        const match = filter === 'all' || card.dataset.category === filter;
+        card.dataset.hidden = match ? 'false' : 'true';
+        if (match) visible++;
+      });
+
+      emptyState.style.display = visible === 0 ? 'block' : 'none';
+    });
+  });
+
+  // ── LIGHTBOX ──
+  const lightbox = document.getElementById('lightbox');
+  const lbImgArea = document.getElementById('lbImgArea');
+  const lbTitle   = document.getElementById('lbTitle');
+  const lbMeta    = document.getElementById('lbMeta');
+  const lbClose   = document.getElementById('lbClose');
+
+  cards.forEach(card => {
+    card.addEventListener('click', () => {
+      const title = card.dataset.title;
+      const tag   = card.dataset.tag;
+      const imgEl = card.querySelector('.card-img img');
+
+      // clone image or keep placeholder svg
+      lbImgArea.innerHTML = '';
+      if (imgEl) {
+        const clone = imgEl.cloneNode();
+        lbImgArea.appendChild(clone);
+      } else {
+        const svg = card.querySelector('.card-img svg').cloneNode(true);
+        lbImgArea.appendChild(svg);
+      }
+
+      lbTitle.textContent = title;
+      lbMeta.textContent  = tag;
+      lightbox.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+
+  function closeLightbox() {
+    lightbox.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  lbClose.addEventListener('click', closeLightbox);
+  lightbox.addEventListener('click', e => {
+    if (e.target === lightbox) closeLightbox();
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeLightbox();
+  });
+</script>
+
+</body>
+</html>
