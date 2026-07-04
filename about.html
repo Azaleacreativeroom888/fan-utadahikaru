@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About — HIKARU UTADA Fan Site</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Noto+Serif+JP:wght@300;400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0a1628;
+      --bg-mid:    #0d2347;
+      --border:    #1a3a6b;
+      --yellow:    #f5c518;
+      --black:     #0b0d12;
+      --text:      #c8d8f0;
+      --text-dim:  #6b88b8;
+      --text-mute: #3a5080;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Noto Serif JP', serif;
+      font-weight: 300;
+      line-height: 1.8;
+      min-height: 100vh;
+    }
+
+    /* ── NAVIGATION ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: var(--black);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 2.5rem;
+      height: 56px;
+    }
+
+    .nav-logo {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.25em;
+      color: var(--yellow);
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.2em;
+      color: var(--text-dim);
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: color 0.25s;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active { color: var(--yellow); }
+
+    /* ── PAGE HEADER ── */
+    .page-header {
+      padding: 120px 2rem 3rem;
+      max-width: 780px;
+      margin: 0 auto;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .page-eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.35em;
+      color: var(--yellow);
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .page-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.2rem, 6vw, 4rem);
+      font-weight: 300;
+      font-style: italic;
+      color: #e8f0ff;
+      line-height: 1.1;
+    }
+
+    /* ── MAIN ── */
+    .main-wrap {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 0 2rem 6rem;
+    }
+
+    /* ── SECTION LABEL ── */
+    .section-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.35em;
+      color: var(--yellow);
+      text-transform: uppercase;
+      margin: 3.5rem 0 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, var(--border), transparent);
+    }
+
+    /* ── ABOUT TEXT ── */
+    .about-body {
+      font-size: 0.92rem;
+      color: var(--text-dim);
+      line-height: 2;
+    }
+
+    .about-body p + p { margin-top: 1em; }
+
+    .about-body strong {
+      color: var(--text);
+      font-weight: 400;
+    }
+
+    /* ── SITE INFO TABLE ── */
+    .site-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.86rem;
+      margin-top: 0.5rem;
+    }
+
+    .site-table tr {
+      border-bottom: 1px solid var(--border);
+    }
+
+    .site-table tr:first-child {
+      border-top: 1px solid var(--border);
+    }
+
+    .site-table th {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      color: var(--text-mute);
+      text-transform: uppercase;
+      text-align: left;
+      padding: 0.85rem 1rem 0.85rem 0;
+      width: 120px;
+      font-weight: 400;
+      vertical-align: top;
+    }
+
+    .site-table td {
+      color: var(--text-dim);
+      padding: 0.85rem 0;
+      line-height: 1.7;
+    }
+
+    /* ── LINK GRID ── */
+    .link-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1rem;
+    }
+
+    .link-card {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      text-decoration: none;
+      background: var(--bg-mid);
+      border: 1px solid var(--border);
+      padding: 1rem 1.1rem;
+      transition: border-color 0.25s, transform 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .link-card::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--yellow), transparent);
+    }
+
+    .link-card:hover {
+      border-color: var(--yellow);
+      transform: translateY(-2px);
+    }
+
+    .link-icon {
+      font-size: 1.4rem;
+      width: 38px;
+      height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(245,197,24,0.06);
+      border: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+
+    .link-text { flex: 1; min-width: 0; }
+
+    .link-name {
+      display: block;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      color: var(--text);
+      margin-bottom: 0.2rem;
+    }
+
+    .link-desc {
+      display: block;
+      font-size: 0.72rem;
+      color: var(--text-mute);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .link-arrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.9rem;
+      color: var(--text-mute);
+      flex-shrink: 0;
+      transition: color 0.2s, transform 0.2s;
+    }
+
+    .link-card:hover .link-arrow {
+      color: var(--yellow);
+      transform: translateX(3px);
+    }
+
+    /* ── CONTACT FORM ── */
+    .form-card {
+      background: var(--bg-mid);
+      border: 1px solid var(--border);
+      padding: 2rem 2rem;
+      position: relative;
+    }
+
+    .form-card::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--yellow), transparent);
+    }
+
+    .form-intro {
+      font-size: 0.85rem;
+      color: var(--text-dim);
+      margin-bottom: 1.8rem;
+      line-height: 1.9;
+    }
+
+    .form-group { margin-bottom: 1.2rem; }
+
+    .form-label {
+      display: block;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.25em;
+      color: var(--text-mute);
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .required { color: #c06070; }
+
+    .form-input,
+    .form-textarea {
+      width: 100%;
+      background: rgba(10,16,28,0.7);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-family: 'Noto Serif JP', serif;
+      font-size: 0.88rem;
+      font-weight: 300;
+      padding: 0.65rem 0.9rem;
+      outline: none;
+      transition: border-color 0.25s, box-shadow 0.25s;
+    }
+
+    .form-input::placeholder,
+    .form-textarea::placeholder { color: var(--text-mute); }
+
+    .form-input:focus,
+    .form-textarea:focus {
+      border-color: var(--yellow);
+      box-shadow: 0 0 0 1px rgba(245,197,24,0.15);
+    }
+
+    .form-textarea {
+      resize: vertical;
+      min-height: 140px;
+    }
+
+    .field-error {
+      display: block;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      color: #c06070;
+      margin-top: 0.4rem;
+      letter-spacing: 0.1em;
+    }
+
+    .form-submit {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: transparent;
+      border: 1px solid var(--yellow);
+      color: var(--yellow);
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      padding: 0.75rem 1.8rem;
+      cursor: pointer;
+      margin-top: 0.5rem;
+      transition: background 0.25s, color 0.25s;
+    }
+
+    .form-submit:hover {
+      background: var(--yellow);
+      color: var(--black);
+    }
+
+    .form-submit:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    .form-success {
+      background: rgba(26,60,40,0.6);
+      border: 1px solid rgba(245,197,24,0.3);
+      padding: 1.2rem 1.5rem;
+      text-align: center;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      color: var(--yellow);
+      margin-bottom: 1.2rem;
+    }
+
+    .form-error-global {
+      background: rgba(122,26,46,0.2);
+      border: 1px solid rgba(192,96,112,0.35);
+      padding: 0.8rem 1rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      color: #c06070;
+      margin-bottom: 1rem;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--black);
+      border-top: 1px solid var(--border);
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .footer-text {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      color: var(--text-mute);
+      line-height: 2;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 600px) {
+      nav { padding: 0 1.25rem; }
+      .nav-links { gap: 1.2rem; }
+      .link-grid { grid-template-columns: 1fr; }
+      .form-card { padding: 1.5rem 1.25rem; }
+      .site-table th { width: 90px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVIGATION -->
+<nav>
+  <a href="index.html" class="nav-logo">Utada Hikaru</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="blog.html">Blog</a></li>
+    <li><a href="gallery.html">Gallery</a></li>
+    <li><a href="about.html" class="active">About</a></li>
+  </ul>
+</nav>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <p class="page-eyebrow">About</p>
+  <h1 class="page-title">このサイトについて</h1>
+</div>
+
+<main class="main-wrap">
+
+  <!-- ABOUT -->
+  <div class="section-label">管理人について</div>
+  <div class="about-body">
+    <p>宇多田ヒカルの音楽が好きで、個人的なオマージュとして作ったファンサイトです。<strong>Azalea72</strong>という名前で漫画・イラストを描いています。</p>
+    <p>このサイトでは、彼女の音楽を聴きながら感じたことや勉強の記録（Blog）、ファンアートやイラスト（Gallery）を公開しています。商業目的はなく、純粋に音楽への愛情から作っています。</p>
+  </div>
+
+  <!-- SITE INFO -->
+  <div class="section-label">サイト情報</div>
+  <table class="site-table">
+    <tr>
+      <th>サイト名</th>
+      <td>HIKARU UTADA — Fan Site</td>
+    </tr>
+    <tr>
+      <th>管理人</th>
+      <td>Azalea72</td>
+    </tr>
+    <tr>
+      <th>開設</th>
+      <td>2025年</td>
+    </tr>
+    <tr>
+      <th>内容</th>
+      <td>ファンアート・勉強記録・ディスコグラフィ紹介</td>
+    </tr>
+    <tr>
+      <th>注意事項</th>
+      <td>当サイトは非公式のファンサイトです。宇多田ヒカルおよびエピックレコードジャパンとは一切関係ありません。</td>
+    </tr>
+  </table>
+
+  <!-- LINKS: 漫画・イラスト -->
+  <div class="section-label">漫画・イラスト掲載サイト</div>
+  <div class="link-grid">
+
+    <a class="link-card" href="https://rookie.shonenjump.com/users/14728546961183734555" target="_blank" rel="noopener">
+      <div class="link-icon">📚</div>
+      <div class="link-text">
+        <span class="link-name">ジャンプルーキー</span>
+        <span class="link-desc">オリジナル漫画を掲載中</span>
+      </div>
+      <span class="link-arrow">›</span>
+    </a>
+
+    <a class="link-card" href="https://daysneo.com/author/Sam333333Sam/" target="_blank" rel="noopener">
+      <div class="link-icon">🌙</div>
+      <div class="link-text">
+        <span class="link-name">DaysNEO</span>
+        <span class="link-desc">漫画掲載サイト</span>
+      </div>
+      <span class="link-arrow">›</span>
+    </a>
+
+    <a class="link-card" href="https://www.pixiv.net/users/105728284" target="_blank" rel="noopener">
+      <div class="link-icon">🎨</div>
+      <div class="link-text">
+        <span class="link-name">Pixiv</span>
+        <span class="link-desc">二次創作はこちらに掲載</span>
+      </div>
+      <span class="link-arrow">›</span>
+    </a>
+
+  </div>
+
+  <!-- LINKS: SNS -->
+  <div class="section-label">SNS・その他</div>
+  <div class="link-grid">
+
+    <a class="link-card" href="https://bsky.app/profile/azaleaazalea88.bsky.social" target="_blank" rel="noopener">
+      <div class="link-icon">🦋</div>
+      <div class="link-text">
+        <span class="link-name">Bluesky</span>
+        <span class="link-desc">近況・作品のお知らせ</span>
+      </div>
+      <span class="link-arrow">›</span>
+    </a>
+
+    <a class="link-card" href="https://kakuyomu.jp/users/azalea_azalea72" target="_blank" rel="noopener">
+      <div class="link-icon">✒️</div>
+      <div class="link-text">
+        <span class="link-name">カクヨム</span>
+        <span class="link-desc">小説を掲載中</span>
+      </div>
+      <span class="link-arrow">›</span>
+    </a>
+
+    <a class="link-card" href="https://www.youtube.com/@LilyPopins0512" target="_blank" rel="noopener">
+      <div class="link-icon">🎬</div>
+      <div class="link-text">
+        <span class="link-name">YouTube（リリポピ）</span>
+        <span class="link-desc">動画チャンネル</span>
+      </div>
+      <span class="link-arrow">›</span>
+    </a>
+
+    <a class="link-card" href="https://azaleacreativeroom888.github.io" target="_blank" rel="noopener">
+      <div class="link-icon">🌸</div>
+      <div class="link-text">
+        <span class="link-name">Azalea Creative Room</span>
+        <span class="link-desc">メインサイト</span>
+      </div>
+      <span class="link-arrow">›</span>
+    </a>
+
+  </div>
+
+  <!-- CONTACT FORM -->
+  <div class="section-label">お問い合わせ</div>
+  <div class="form-card">
+    <p class="form-intro">
+      ご感想・ご質問などはこちらからどうぞ。<br>
+      返信はGmailにて行います。
+    </p>
+
+    <div data-fs-success class="form-success" style="display:none;">
+      ✦ &nbsp;メッセージを送信しました。ありがとうございます！
+    </div>
+
+    <div data-fs-error class="form-error-global" style="display:none;"></div>
+
+    <form id="contact-form" action="https://formspree.io/f/maqvpvoz" method="POST">
+
+      <div class="form-group">
+        <label class="form-label" for="name">お名前</label>
+        <input class="form-input" type="text" id="name" name="name" placeholder="Azalea72" required>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="email">メールアドレス <span class="required">*</span></label>
+        <input class="form-input" type="email" id="email" name="email" data-fs-field placeholder="example@email.com" required>
+        <span data-fs-error="email" class="field-error"></span>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="message">メッセージ <span class="required">*</span></label>
+        <textarea class="form-textarea" id="message" name="message" data-fs-field placeholder="メッセージを入力してください…" rows="6" required></textarea>
+        <span data-fs-error="message" class="field-error"></span>
+      </div>
+
+      <button class="form-submit" type="submit" data-fs-submit-btn>
+        送信する →
+      </button>
+
+    </form>
+  </div>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <p class="footer-text">
+    当サイトに掲載されている画像・文章・作品について、AI学習への利用、トレース、無断転載・転載、二次利用を禁止します。<br>
+    Please refrain from using any images, text, or works on this website for AI training, tracing, unauthorized reproduction, or secondary use.<br>
+    This is an unofficial fan site and is not affiliated with Hikaru Utada or Epic Records Japan.
+  </p>
+</footer>
+
+<script>
+  window.formspree = window.formspree || function () { (formspree.q = formspree.q || []).push(arguments); };
+  formspree('initForm', { formElement: '#contact-form', formId: 'maqvpvoz' });
+</script>
+<script src="https://unpkg.com/@formspree/ajax@1" defer></script>
+
+</body>
+</html>
