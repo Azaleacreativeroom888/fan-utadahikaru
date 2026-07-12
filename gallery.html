@@ -370,6 +370,94 @@
       text-decoration: none;
     }
 
+    /* ── PLAYLIST ── */
+    .playlist-section {
+      border-top: 1px solid var(--border);
+      padding: 4rem 2rem 5rem;
+    }
+
+    .playlist-inner {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .playlist-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .playlist-sub {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.15em;
+      color: var(--text-mute);
+      margin-bottom: 2rem;
+    }
+
+    .playlist-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+    }
+
+    .pl-entry {
+      background: var(--bg);
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      padding: 1.1rem 1.2rem;
+      transition: background 0.2s;
+    }
+
+    .pl-entry:hover { background: var(--bg-mid); }
+
+    .pl-icon {
+      font-size: 1.1rem;
+      flex-shrink: 0;
+      margin-top: 0.15rem;
+      opacity: 0.75;
+    }
+
+    .pl-body { flex: 1; min-width: 0; }
+
+    .pl-meta {
+      display: flex;
+      align-items: baseline;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 0.3rem;
+    }
+
+    .pl-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      font-weight: 400;
+      color: #e8f0ff;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .pl-artist {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.1em;
+      color: var(--yellow);
+      white-space: nowrap;
+    }
+
+    .pl-comment {
+      font-size: 0.8rem;
+      color: var(--text-mute);
+      line-height: 1.7;
+    }
+
     /* ── RESPONSIVE ── */
     @media (max-width: 700px) {
       nav { padding: 0 1.25rem; }
@@ -392,6 +480,7 @@
     <li><a href="index.html">Home</a></li>
     <li><a href="blog.html">Blog</a></li>
     <li><a href="gallery.html" class="active">Gallery</a></li>
+    <li><a href="playlist.html">Playlist</a></li>
     <li><a href="about.html">About</a></li>
   </ul>
 </nav>
@@ -558,6 +647,7 @@
 
   <div class="empty-state" id="emptyState">該当する作品がありません</div>
 </div>
+
 
 <!-- LIGHTBOX -->
 <div class="lightbox" id="lightbox">
